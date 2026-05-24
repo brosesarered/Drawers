@@ -1,4 +1,4 @@
-﻿using Dalamud.Game.ClientState.Objects.Enums;
+using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
@@ -25,17 +25,13 @@ public sealed unsafe class Plugin : IDalamudPlugin
     [PluginService]
     internal static IFramework Framework { get; private set; } = null!;
 
-    [PluginService]
-    internal static IPluginLog Log { get; private set; } = null!;
-
     public Plugin()
     {
         CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
         {
             HelpMessage = "Toggle weapon draw/sheathe"
         });
-
-        Log.Information("Drawers loaded");
+        
     }
 
     public void Dispose()
@@ -54,7 +50,6 @@ public sealed unsafe class Plugin : IDalamudPlugin
         
         // Check if weapon is out
         bool wasWeaponOut = player.StatusFlags.HasFlag(StatusFlags.WeaponOut);
-        Log.Information($"Initial weapon state: {wasWeaponOut}");
 
         // Emote
         ExecuteGameCommand(wasWeaponOut ? "/sheathe motion" : "/draw motion");
@@ -67,13 +62,11 @@ public sealed unsafe class Plugin : IDalamudPlugin
                 return;
 
             bool isWeaponOut = currentPlayer.StatusFlags.HasFlag(StatusFlags.WeaponOut);
-
-            Log.Information($"Weapon state after emote: {isWeaponOut}");
+            
 
             // If it didn't work
             if (isWeaponOut == wasWeaponOut)
             {
-                Log.Warning("Emote failed, using /bm fallback");
 
                 ExecuteGameCommand("/bm");
             }
