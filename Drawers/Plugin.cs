@@ -41,6 +41,7 @@ public sealed unsafe class Plugin : IDalamudPlugin
 
     private void OnCommand(string command, string args)
     {
+        // Not needed, but it's probably good practice?
         if (!ClientState.IsLoggedIn)
             return;
 
@@ -56,18 +57,17 @@ public sealed unsafe class Plugin : IDalamudPlugin
        
         Framework.RunOnTick(() =>
         {
-            // If it worked
             var currentPlayer = ObjectTable.LocalPlayer;
             if (currentPlayer == null)
                 return;
-
+            
+            // If it worked
             bool isWeaponOut = currentPlayer.StatusFlags.HasFlag(StatusFlags.WeaponOut);
             
 
             // If it didn't work
             if (isWeaponOut == wasWeaponOut)
             {
-
                 ExecuteGameCommand("/bm");
             }
 
@@ -78,7 +78,7 @@ public sealed unsafe class Plugin : IDalamudPlugin
     {
         using var utf8 = new Utf8String();
         utf8.SetString(command);
-
+        
         UIModule.Instance()->ProcessChatBoxEntry(&utf8);
     }
 }
