@@ -1,0 +1,14 @@
+{
+  "Author": "rose",
+  "Name": "Drawers",
+  "Punchline": "Draw or sheathe a little better(?)",
+  "Description": "You can use this plugin to use the /draw or /sheathe emotes instead of your usual weapon draw/sheathe. You'll need to set up the /drawers command as a macro and bind a key to it. \n\n(Also, you'll obviously need the emotes themselves)",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "misc",
+    "plugin",
+    "rose", 
+    "draw",
+    "sheathe"
+  ]
+}
