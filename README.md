@@ -4,6 +4,7 @@ This means you can make a macro calling /drawers and set it to your weapon draw/
 
 <img width="331" height="98" alt="image" src="https://github.com/user-attachments/assets/93d6a410-fa62-4327-bdf8-ba8d8be472cb" />
 
+(The "/merror off" isn't needed, I'm just in the habit of using it.)
 
 **Repo:**
 https://raw.githubusercontent.com/brosesarered/Drawers/main/pluginmaster.json
