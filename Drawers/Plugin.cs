@@ -35,6 +35,9 @@ public sealed unsafe class Plugin : IDalamudPlugin
     [PluginService]
     internal static IGameInteropProvider GameInteropProvider { get; private set; } = null!;
 
+    [PluginService]
+    internal static IPluginLog PluginLog { get; private set; } = null!;
+
     private bool queuedInputMotion;
     private bool? previousWeaponState;
     private bool suppressStateCheck;
@@ -75,14 +78,23 @@ public sealed unsafe class Plugin : IDalamudPlugin
 
     private bool IsInputIdPressedDetour(InputData* thisPtr, InputId inputId)
     {
-        bool isPressed = isInputIdPressedHook.Original(thisPtr, inputId);
-        if (configuration.AutoMode
-            && isPressed
-            && ClientState.IsLoggedIn
-            && IsWeaponToggleInput(inputId))
+        var isPressed = false;
+
+        try
         {
-            QueueInputMotion();
-            return false;
+            isPressed = isInputIdPressedHook.Original(thisPtr, inputId);
+            if (configuration.AutoMode
+                && isPressed
+                && ClientState.IsLoggedIn
+                && IsWeaponToggleInput(inputId))
+            {
+                QueueInputMotion();
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            PluginLog.Error(ex, "Error in IsInputIdPressedDetour.");
         }
 
         return isPressed;
