@@ -1,5 +1,6 @@
 using System;
 using Dalamud.Hooking;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
@@ -25,6 +26,9 @@ public sealed unsafe class Plugin : IDalamudPlugin
 
     [PluginService]
     internal static IClientState ClientState { get; private set; } = null!;
+
+    [PluginService]
+    internal static ICondition Condition { get; private set; } = null!;
 
     [PluginService]
     internal static IObjectTable ObjectTable { get; private set; } = null!;
@@ -86,6 +90,7 @@ public sealed unsafe class Plugin : IDalamudPlugin
             if (configuration.AutoMode
                 && isPressed
                 && ClientState.IsLoggedIn
+                && !Condition[ConditionFlag.Mounted]
                 && IsWeaponToggleInput(inputId))
             {
                 QueueInputMotion();
@@ -103,10 +108,10 @@ public sealed unsafe class Plugin : IDalamudPlugin
     private static bool IsWeaponToggleInput(InputId inputId)
     {
         return inputId
-            is InputId.SWARD
+            is (InputId.SWARD
             or InputId.NOTARGET_SWORD
             or InputId.PAD_SWARD
-            or InputId.PAD_DRAWN_SWORD;
+            or InputId.PAD_DRAWN_SWORD);
     }
 
     private void QueueInputMotion()
