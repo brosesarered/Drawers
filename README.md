@@ -8,5 +8,4 @@ This means you can make a macro calling /drawers and set it to your weapon draw/
 
 Alternatively, you can just use /drawers auto and it'll handle this itself.
 
-**Repo:**
-https://raw.githubusercontent.com/brosesarered/Drawers/main/pluginmaster.json
+Available on Dalamud testing.
